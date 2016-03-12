@@ -1,0 +1,7 @@
+---
+dependencies: []
+galaxy_info:
+  author: nrser
+  description: nrser.dev_setup ansible role
+  license: BSD
+  min_ansible_version: 1.2
