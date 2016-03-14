@@ -1,0 +1,11 @@
+---
+- name: create dev/ref/tmp dir for clones, checkouts and downloads
+  file:
+    path: "{{ dev_setup_dev_dir }}/ref/tmp"
+    state: directory
+
+- include: refs-github.yml
+  when: dev_setup_refs.github
+
+- include: refs-archive.yml
+  when: dev_setup_refs.archive

@@ -1,2 +1,15 @@
 ---
 # tasks file for nrser.dev_setup
+- include: repos.yml
+  when: dev_setup_repos is defined
+  
+- include: refs.yml
+  when: dev_setup_refs is defined
+
+- name: install gems with bundler in .bundle
+  command: bundle install --path=.bundle
+  args:
+    chdir: "{{ dev_setup_project_root }}"
+    creates: "{{ dev_setup_project_root }}/.bundle"
+  when: dev_setup_gemfile_exists is defined
+  

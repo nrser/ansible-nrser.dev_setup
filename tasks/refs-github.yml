@@ -1,0 +1,26 @@
+---
+# included when dev_setup_refs has a 'github' key, the value of which must
+# be a list of dicts like:
+# 
+#     - owner: nrser
+#       name: ansible-nrser.dev_setup
+#       version: 0.1.0 # defaults to HEAD
+#       dir_name: ansible-nrser.dev_setup-0.1.0 # defaults to name value
+#       depth: 1 # defaults to 1, set 0 for full clone
+#       
+
+- name: clone github ref repos
+  git:
+    repo: git@github.com:{{ item.owner }}/{{ item.name }}.git
+    dest: "{{ dev_setup_dev_dir }}/ref/tmp/{{ item.dir_name | default(item.name) }}"
+    version: "{{ item.version | default('HEAD') }}"
+    # default to a shallow clone of just the version we specify since
+    # many times we're checking out specifc versions of large projects and this
+    # should make it faster.
+    # 
+    # you can check out the whole thing by specifying 0
+    # 
+    depth: "{{ item.depth | default(1) }}"
+    update: no
+  with_items: dev_setup_refs.github
+  

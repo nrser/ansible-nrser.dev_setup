@@ -1,0 +1,23 @@
+---
+  
+- name: clone co-dev repos
+  git:
+    repo: git@github.com:{{ item.owner }}/{{ item.name }}.git
+    dest: "{{ dev_setup_dev_dir }}/repos/{{ item.dir_name | default(item.name) }}"
+    version: "{{ item.version | default('HEAD') }}"
+    update: no
+  with_items: dev_setup_repos
+
+- name: see if the repos have a Gemfile
+  stat:
+    path: "{{ dev_setup_dev_dir }}/repos/{{ item.dir_name | default(item.name) }}/Gemfile"
+  with_items: dev_setup_repos
+  register: dev_setup_repos_gemfile_stats
+
+- name: install bundle for any that have a Gemfile
+  shell: bash -lc "bundle install --path=./.bundle"
+  args:
+    chdir: "{{ item.invocation.module_complex_args.path | dirname }}"
+  when: item.stat.exists
+  with_items: dev_setup_repos_gemfile_stats.results | default([])
+  

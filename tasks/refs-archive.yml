@@ -1,0 +1,38 @@
+---
+# downloads and extracts reference sources available in archive formats.
+# 
+# 
+# included when dev_setup_refs has a 'archive' key, the value of which must
+# be a list of dicts like:
+# 
+#     - url: https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.23.zip
+#       file_name: google_appengine_1.9.23.zip
+#       dir_name: google_appengine_python_sdk_1.9.23
+#    
+
+- name: stat archive references
+  stat:
+    path: "{{ dev_setup_dev_dir }}/ref/tmp/{{ item.dir_name }}"
+    follow: true
+  with_items: dev_setup_refs.archive
+  register: dev_setup_archive_stats
+
+- name: download archive references
+  get_url:
+    url: "{{ item.item.url }}"
+    dest: "/tmp/{{ item.item.file_name }}"
+  when: not item.stat.exists
+  with_items: dev_setup_archive_stats.results
+
+- name: create directories for archive reference repos
+  file:
+    path: "{{ dev_setup_dev_dir }}/ref/tmp/{{ item.dir_name }}"
+    state: directory
+  with_items: dev_setup_refs.archive
+
+- name: extract archive reference repos
+  unarchive:
+    src: "/tmp/{{ item.item.file_name }}"
+    dest: "{{ dev_setup_dev_dir }}/ref/tmp/{{ item.item.dir_name }}"
+  when: not item.stat.exists
+  with_items: dev_setup_archive_stats.results

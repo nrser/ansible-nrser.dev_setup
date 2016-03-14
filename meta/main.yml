@@ -1,5 +1,15 @@
 ---
-dependencies: []
+dependencies:
+- role: nrser.rbenv
+  rbenv_rubies:
+  - "{{ dev_setup_ruby_version }}"
+  when: dev_setup_ruby_version is defined
+
+- role: nrser.nodenv
+  nodenv_nodes:
+  - "{{ dev_setup_node_version }}"
+  when: dev_setup_node_version is defined
+
 galaxy_info:
   author: nrser
   description: nrser.dev_setup ansible role
