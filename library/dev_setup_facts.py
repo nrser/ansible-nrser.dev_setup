@@ -31,8 +31,10 @@ def main():
             facts["dev_setup_node_version"] = f.read().rstrip()
     
     gemfile_path = os.path.join(project_root, 'Gemfile')
-    if os.path.exists(gemfile_path):
-        facts["dev_setup_gemfile_exists"] = True
+    facts["dev_setup_gemfile_exists"] = os.path.exists(gemfile_path)
+    
+    package_json_path = os.path.join(project_root, 'package.json')
+    facts["dev_setup_package_json_exists"] = os.path.exists(package_json_path)
     
     module.exit_json(
         changed = False,
