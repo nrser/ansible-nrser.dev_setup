@@ -1,3 +1,3 @@
 ---
 # defaults file for nrser.dev_setup
-  
+dev_setup_repos_bundle_install: false

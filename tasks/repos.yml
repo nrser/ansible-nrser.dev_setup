@@ -13,11 +13,12 @@
     path: "{{ dev_setup_dev_dir }}/repos/{{ item.dir_name | default(item.name) }}/Gemfile"
   with_items: dev_setup_repos
   register: dev_setup_repos_gemfile_stats
+  when: "{{ dev_setup_repos_bundle_install }}"
 
 - name: install bundle for any that have a Gemfile
   shell: bash -lc "bundle install --path=./.bundle"
   args:
     chdir: "{{ item.invocation.module_complex_args.path | dirname }}"
-  when: item.stat.exists
+  when: "{{ dev_setup_repos_bundle_install and item.stat.exists }}"
   with_items: dev_setup_repos_gemfile_stats.results | default([])
   
