@@ -22,5 +22,5 @@
     # 
     depth: "{{ item.depth | default(1) }}"
     update: no
-  with_items: dev_setup_refs.github
+  with_items: "{{ dev_setup_refs.github }}"
   

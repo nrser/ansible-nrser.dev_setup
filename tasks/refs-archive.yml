@@ -14,7 +14,7 @@
   stat:
     path: "{{ dev_setup_dev_dir }}/ref/tmp/{{ item.dir_name }}"
     follow: true
-  with_items: dev_setup_refs.archive
+  with_items: "{{ dev_setup_refs.archive }}"
   register: dev_setup_archive_stats
 
 - name: download archive references
@@ -28,11 +28,11 @@
   file:
     path: "{{ dev_setup_dev_dir }}/ref/tmp/{{ item.dir_name }}"
     state: directory
-  with_items: dev_setup_refs.archive
+  with_items: "{{ dev_setup_refs.archive }}"
 
 - name: extract archive reference repos
   unarchive:
     src: "/tmp/{{ item.item.file_name }}"
     dest: "{{ dev_setup_dev_dir }}/ref/tmp/{{ item.item.dir_name }}"
   when: not item.stat.exists
-  with_items: dev_setup_archive_stats.results
+  with_items: "{{ dev_setup_archive_stats.results }}"

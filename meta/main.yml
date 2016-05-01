@@ -1,13 +1,11 @@
 ---
 dependencies:
 - role: nrser.rbenv
-  rbenv_rubies:
-  - "{{ dev_setup_ruby_version }}"
+  rbenv_rubies: "{{ [dev_setup_ruby_version] | default([]) }}"
   when: dev_setup_ruby_version is defined
 
 - role: nrser.nodenv
-  nodenv_nodes:
-  - "{{ dev_setup_node_version }}"
+  nodenv_nodes: "{{ [dev_setup_node_version] | default([]) }}"
   when: dev_setup_node_version is defined
 
 galaxy_info:
