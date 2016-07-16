@@ -22,7 +22,7 @@
     url: "{{ item.item.url }}"
     dest: "/tmp/{{ item.item.file_name }}"
   when: not item.stat.exists
-  with_items: dev_setup_archive_stats.results
+  with_items: "{{ dev_setup_archive_stats.results }}"
 
 - name: create directories for archive reference repos
   file:
