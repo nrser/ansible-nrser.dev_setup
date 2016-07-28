@@ -1,3 +1,8 @@
 ---
 # defaults file for nrser.dev_setup
+
+# if true do a `bundle install` for co-dev repos
 dev_setup_repos_bundle_install: false
+
+# if true only load the facts
+dev_setup_facts_only: false

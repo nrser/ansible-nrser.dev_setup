@@ -1,5 +1,9 @@
 ---
 # tasks file for nrser.dev_setup
+- name: load dev_setup facts
+  dev_setup_facts:
+  when: dev_setup_facts_loaded is not defined
+
 - include: repos.yml
   when: dev_setup_repos is defined
   
@@ -11,11 +15,11 @@
   args:
     chdir: "{{ dev_setup_project_root }}"
     creates: "{{ dev_setup_project_root }}/.bundle"
-  when: dev_setup_gemfile_exists
+  when: not dev_setup_facts_only and dev_setup_gemfile_exists
 
 - name: install node modules from package.json
   command: npm install
   args:
     chdir: "{{ dev_setup_project_root }}"
     creates: "{{ dev_setup_project_root }}/node_modules"
-  when: dev_setup_package_json_exists
+  when: not dev_setup_facts_only and dev_setup_package_json_exists

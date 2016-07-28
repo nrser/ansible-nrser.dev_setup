@@ -12,6 +12,8 @@ def main():
     
     facts = {}
     
+    facts['dev_setup_facts_loaded'] = True
+    
     # get the project root via git (though we should be in dev/)
     project_root = facts['dev_setup_project_root'] = subprocess.check_output(
         ['git', 'rev-parse', '--show-toplevel']
