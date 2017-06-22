@@ -27,5 +27,5 @@
     creates: "{{ dev_setup_project_root }}/node_modules"
   when: >-
     not dev_setup_facts_only and 
-    dev_setup_yarn_install
+    dev_setup_yarn_install and
     dev_setup_package_json_exists
