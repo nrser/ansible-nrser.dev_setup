@@ -15,11 +15,17 @@
   args:
     chdir: "{{ dev_setup_project_root }}"
     creates: "{{ dev_setup_project_root }}/.bundle"
-  when: not dev_setup_facts_only and dev_setup_gemfile_exists
+  when: >-
+    not dev_setup_facts_only and
+    dev_setup_bundle_install and
+    dev_setup_gemfile_exists
 
 - name: install node modules from package.json
-  command: npm install
+  command: yarn
   args:
     chdir: "{{ dev_setup_project_root }}"
     creates: "{{ dev_setup_project_root }}/node_modules"
-  when: not dev_setup_facts_only and dev_setup_package_json_exists
+  when: >-
+    not dev_setup_facts_only and 
+    dev_setup_yarn_install
+    dev_setup_package_json_exists
